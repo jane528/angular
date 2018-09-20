@@ -5,10 +5,10 @@
     <title>angular</title>
     <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
 </head>
-<body>
+<body ng-app="myApp">
     <!--ng-init命令用于初始化变量，通常情况下不会使用init，而是使用控制器代替-->
     <!--ng-app指令在网页加载完毕会自动引导应用程序-->
-    <div ng-app="myApp" ng-controller="myCtrl"
+    <div  ng-controller="myCtrl"
          ng-init="points=[15,2,6,45];names=[{name:'jani',country:'norway'},{name:'linda',country:'england'}]">
         <!--数组-->
         <p>第三个值为<span ng-bind="points[2]"></span></p>
@@ -52,6 +52,9 @@
         <button ng-click="sayHello()">点 击</button>
         <p>{{greeting}}</p>
     </div>
+    <div ng-controller="myCtrl2">
+        <p>{{allname()}}</p>
+    </div>
     <script>
         var app=angular.module("myApp",[]);
         //restrict:
@@ -74,8 +77,20 @@
         });
         //根作用域$rootScope可作用于整个应用中，是各个controller中scope的桥梁
         app.controller('myCtrl',function($scope,$rootScope){
-
+            //关于作用域$scope局部变量，在使用时{{变量名}}
+            //关于作用域$rootscope全局变量，在使用时{{$root.变量名}}
+       });
+        app.controller('myCtrl2',function($scope){
+            $scope.f1="jane";
+            $scope.f2="wang";
+            $scope.allname=function(){
+                return $scope.f1+" "+$scope.f2
+            };
         });
+        //控制器的使用在js中写
+        //1.定义app变量var app=angular.module('应用名称',[]);
+        //2.app.controller('控制器名称',function($scope){内容});
+        //3.一个应用中可以有多个控制器
     </script>
 </body>
 </html>
