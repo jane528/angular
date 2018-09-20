@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>angular</title>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body>
+    <!--ng-init命令用于初始化变量，通常情况下不会使用init，而是使用控制器代替-->
+    <!--ng-app指令在网页加载完毕会自动引导应用程序-->
+    <div ng-app="myApp" ng-controller="myCtrl"
+         ng-init="points=[15,2,6,45];names=[{name:'jani',country:'norway'},{name:'linda',country:'england'}]">
+        <!--数组-->
+        <p>第三个值为<span ng-bind="points[2]"></span></p>
+        <!--
+        ng-model绑定html元素到应用程序
+        为应用程序数据提供状态，为应用程序数据提供状态、为html元素提供CSS类、绑定html元素到html表单
+        -->
+        <p>姓名：<input type="text" ng-model="firstname"> </p>
+        <p>你输入的姓名是：{{firstname}}</p>
+        <!--重复html元素 在重复元素上写ng-repeat-->
+        <ul>
+            <li ng-repeat="x in points">
+                {{x}}
+            </li>
+        </ul>
+        <!--对象数组循环-->
+        <ul>
+            <li ng-repeat="x in names">
+                {{x.name+" "+x.country}}
+            </li>
+        </ul>
+        <guoyi-Directive></guoyi-Directive>
+        <!--验证用户输入-->
+        <form name="myForm">
+           Emial:
+            <input type="email" name="myAddress" ng-model="text">
+            <span ng-show="myForm.myAddress.$error.email">不是一个合法的邮箱地址</span>
+            <h1>
+                <!--
+                ng-valid:验证通过
+                ng-invalid:验证失败
+                ng-dirty:控件输入值已变更
+                ng-touched:控件已失去焦点
+                -->
+                状态
+                {{myForm.myAddress.$valid}}
+                {{myForm.myAddress.$dirty}}
+                {{myForm.myAddress.$touched}}
+            </h1>
+        </form>
+        <button ng-click="sayHello()">点 击</button>
+        <p>{{greeting}}</p>
+    </div>
+    <script>
+        var app=angular.module("myApp",[]);
+        //restrict:
+        // E:元素名称
+        //A:属性
+        //C:类名
+        //M:注释
+        //默认：EA
+        app.directive("guoyiDirective",function(){
+           return{
+               restrict:"E",
+               template:"<h1>自定义指令</h1>"
+           };
+        });
+        app.controller('myCtrl',function($scope){
+            $scope.firstname='jane.wang';
+            $scope.sayHello = function(){
+                $scope.greeting="hello man";
+            };
+        });
+        //根作用域$rootScope可作用于整个应用中，是各个controller中scope的桥梁
+        app.controller('myCtrl',function($scope,$rootScope){
+
+        });
+    </script>
+</body>
+</html>
