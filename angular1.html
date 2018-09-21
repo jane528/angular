@@ -11,7 +11,7 @@
     <div  ng-controller="myCtrl"
          ng-init="points=[15,2,6,45];names=[{name:'jani',country:'norway'},{name:'linda',country:'england'}]">
         <!--数组-->
-        <p>第三个值为<span ng-bind="points[2]"></span></p>
+        <p>第三个值为<span ng-bind="points[2]|currency"></span></p>
         <!--
         ng-model绑定html元素到应用程序
         为应用程序数据提供状态，为应用程序数据提供状态、为html元素提供CSS类、绑定html元素到html表单
@@ -21,7 +21,7 @@
         <!--重复html元素 在重复元素上写ng-repeat-->
         <ul>
             <li ng-repeat="x in points">
-                {{x}}
+                {{x|currency}}
             </li>
         </ul>
         <!--对象数组循环-->
@@ -32,10 +32,13 @@
         </ul>
         <guoyi-Directive></guoyi-Directive>
         <!--验证用户输入-->
-        <form name="myForm">
-           Emial:
+        <form novalidate name="myForm">
+           <!--Emial:
             <input type="email" name="myAddress" ng-model="text">
-            <span ng-show="myForm.myAddress.$error.email">不是一个合法的邮箱地址</span>
+            <span ng-show="myForm.myAddress.$error.email">不是一个合法的邮箱地址</span-->
+            <!--ovalidate 属性在应用中不是必须的，但是你需要在 AngularJS 表单中使用，用于重写标准的 HTML5 验证-->
+            姓名：<input type="text" ng-model="user.name">
+            密码：<input type="text" ng-model="user.password">
             <h1>
                 <!--
                 ng-valid:验证通过
@@ -49,48 +52,21 @@
                 {{myForm.myAddress.$touched}}
             </h1>
         </form>
+        <p>form={{user}}</p>
         <button ng-click="sayHello()">点 击</button>
         <p>{{greeting}}</p>
     </div>
     <div ng-controller="myCtrl2">
-        <p>{{allname()}}</p>
+        <p ng-show="true">可见</p>
+        <p ng-show="false">不可见</p>
+        <button ng-click="allname()">显示/隐藏</button>
+        <div ng-show="a1">
+            <p>{{f1}}</p>
+            <p>{{f2}}</p>
+        </div>
     </div>
-    <script>
-        var app=angular.module("myApp",[]);
-        //restrict:
-        // E:元素名称
-        //A:属性
-        //C:类名
-        //M:注释
-        //默认：EA
-        app.directive("guoyiDirective",function(){
-           return{
-               restrict:"E",
-               template:"<h1>自定义指令</h1>"
-           };
-        });
-        app.controller('myCtrl',function($scope){
-            $scope.firstname='jane.wang';
-            $scope.sayHello = function(){
-                $scope.greeting="hello man";
-            };
-        });
-        //根作用域$rootScope可作用于整个应用中，是各个controller中scope的桥梁
-        app.controller('myCtrl',function($scope,$rootScope){
-            //关于作用域$scope局部变量，在使用时{{变量名}}
-            //关于作用域$rootscope全局变量，在使用时{{$root.变量名}}
-       });
-        app.controller('myCtrl2',function($scope){
-            $scope.f1="jane";
-            $scope.f2="wang";
-            $scope.allname=function(){
-                return $scope.f1+" "+$scope.f2
-            };
-        });
-        //控制器的使用在js中写
-        //1.定义app变量var app=angular.module('应用名称',[]);
-        //2.app.controller('控制器名称',function($scope){内容});
-        //3.一个应用中可以有多个控制器
-    </script>
+    <!--对于 HTML 应用程序，通常建议把所有的脚本都放置在 <body> 元素的最底部。这会提高网页加载速度，因为 HTML 加载不受制于脚本加载。-->
+    <script src="myApp.js"></script>
+    <script src="myCtrl.js"></script>
 </body>
 </html>
